@@ -7,10 +7,10 @@
 <body ontouchstart="">
 
     {% include nav.html %}
-
     {{ content }}
-
-    {% include footer.html %}
+    {% if page.footer != false %}
+    	{% include footer.html %}
+	{% endif %}
 
 
 <!-- Image to hack wechat -->

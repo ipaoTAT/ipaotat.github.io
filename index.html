@@ -1,42 +1,44 @@
 ---
-layout: page
-description: "一生想做浪漫极客"
+layout: default
+section-type: index
+description: "Go Big or Go Home!"
+footer: false
 ---
 
-{% for post in paginator.posts %}
-<div class="post-preview">
-    <a href="{{ post.url | prepend: site.baseurl }}">
-        <h2 class="post-title">
-            {{ post.title }}
-        </h2>
-        {% if post.subtitle %}
-        <h3 class="post-subtitle">
-            {{ post.subtitle }}
-        </h3>
-        {% endif %}
-        <div class="post-content-preview">
-            {{ post.content | strip_html | truncate:200 }}
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}
-    </p>
-</div>
-<hr>
-{% endfor %}
+<style type="text/css">
+html{
+	height:100%;
+}
+body{
+	overflow-x:hidden;
+	overflow-y:hidden;
+	height:100%;
+}
+header{
+	height:100%;
+}
+.intro-text{
+	font-size:18px;
+}
+</style>
 
-<!-- Pager -->
-{% if paginator.total_pages > 1 %}
-<ul class="pager">
-    {% if paginator.previous_page %}
-    <li class="previous">
-        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
-    </li>
-    {% endif %}
-    {% if paginator.next_page %}
-    <li class="next">
-        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
-    </li>
-    {% endif %}
-</ul>
-{% endif %}
+<!-- Page Header -->
+<header class="intro-header" style="background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+					<h1 class="brand-heading">&nbsp;</h1>
+					<h1 class="brand-heading">&nbsp;</h1>
+					<span class="intro-text">{{ content }}</span>
+					<h5>&nbsp;</h5>
+					<a href="#{{ site.pages_list['About'] }}" class="page-scroll">
+						<img class="img-me" src="{{site.baseurl}}{{ site.me-img }}" alt="">
+					</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% include js.html %}
