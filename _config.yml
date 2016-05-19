@@ -84,11 +84,17 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 # Friends
 friends: [
     {
-        title: "黄玄的博客|Hux Blog",
-        href: "http://huangxuan.me/"
-    },{
         title: "Jekyll的中文文档",
         href: "http://jekyllcn.com/docs/home/"
+    },{
+        title: "Waiting4U唱吧",
+        href: "http://changba.com/u/20371735"
+    },{
+        title: "付神的博客",
+        href: "http://int32bit.me/"
+    },{
+        title: "黄玄的博客|Hux Blog",
+        href: "http://huangxuan.me/"
     }
 ]
 
