@@ -1,20 +1,20 @@
 ---
 layout: post
-title: NeutronÑ§Ï°Ö®l3-agent
+title: Neutronå­¦ä¹ ä¹‹l3-agent
 comments: true
 tags: [OpenStack,Neutron]
 header-img: img/post-bg-os-metro.jpg
 ---
 
 ### Overview
-l3-agentÎªÓÃ»§Ìá¹©Èı²ãÂ·ÓÉ·şÎñ¡£°üÀ¨vrouter¹ÜÀí¡¢floatingip¹ÜÀí¡¢Íø¹Ø¹ÜÀí¡¢firewall¹ÜÀíµÈ¡£vrouterÊ¹ÓÃlinux routeÍê³ÉÂ·ÓÉ×ª·¢£»Ê¹ÓÃiptablesÍê³Éfloatingip¡¢Íø¹ØµØÖ·×ª»»ºÍfirewall¹æÔò¡£
-´Ó½á¹¹ÉÏ£¬l3-agentÓëneutron-serverÍ¨¹ıRPC½»»¥£¬´ÓcontrollerÉÏÊı¾İ¿âÖĞÀ­È¡ÅäÖÃ£¬²¢Ê¹ÓÃÉÏÊö¼¼ÊõÔÚÍøÂç½ÚµãÉÏ¹ÜÀíÈı²ã·şÎñ×ÊÔ´£»Í¬Ê±neutron-server¼°Ê±Í¨Öª£¨notify£©l3-agentÖ÷¶¯½øĞĞ×ÊÔ´ÅäÖÃµ÷Õû¡£
+l3-agentä¸ºç”¨æˆ·æä¾›ä¸‰å±‚è·¯ç”±æœåŠ¡ã€‚åŒ…æ‹¬vrouterç®¡ç†ã€floatingipç®¡ç†ã€ç½‘å…³ç®¡ç†ã€firewallç®¡ç†ç­‰ã€‚vrouterä½¿ç”¨linux routeå®Œæˆè·¯ç”±è½¬å‘ï¼›ä½¿ç”¨iptableså®Œæˆfloatingipã€ç½‘å…³åœ°å€è½¬æ¢å’Œfirewallè§„åˆ™ã€‚
+ä»ç»“æ„ä¸Šï¼Œl3-agentä¸neutron-serveré€šè¿‡RPCäº¤äº’ï¼Œä»controllerä¸Šæ•°æ®åº“ä¸­æ‹‰å–é…ç½®ï¼Œå¹¶ä½¿ç”¨ä¸Šè¿°æŠ€æœ¯åœ¨ç½‘ç»œèŠ‚ç‚¹ä¸Šç®¡ç†ä¸‰å±‚æœåŠ¡èµ„æºï¼›åŒæ—¶neutron-serveråŠæ—¶é€šçŸ¥ï¼ˆnotifyï¼‰l3-agentä¸»åŠ¨è¿›è¡Œèµ„æºé…ç½®è°ƒæ•´ã€‚
 
 <!-- more -->
 
-### 1. agentÆô¶¯
-ºÍopenstackÆäËûÊ¹ÓÃ»ùÓÚMQµÄrpcµÄ·şÎñÏàÍ¬£¬ÖØµãÔÚÓÚ´«ÈëµÄmanagerÀà¡£ÕæÕıµÄrpcµ÷ÓÃ½«ÓÉ¸ÃÀàÖĞµÄÍ¬Ãûº¯ÊıÌá¹©¡£
-ÒÔl3-agentÎªÀı£º
+### 1. agentå¯åŠ¨
+å’Œopenstackå…¶ä»–ä½¿ç”¨åŸºäºMQçš„rpcçš„æœåŠ¡ç›¸åŒï¼Œé‡ç‚¹åœ¨äºä¼ å…¥çš„managerç±»ã€‚çœŸæ­£çš„rpcè°ƒç”¨å°†ç”±è¯¥ç±»ä¸­çš„åŒåå‡½æ•°æä¾›ã€‚
+ä»¥l3-agentä¸ºä¾‹ï¼š
 ```python
 # neutron/agent/l3_agent.py
 def main(manager='neutron.agent.l3.agent.L3NATAgentWithStateReport'):
@@ -28,18 +28,18 @@ def main(manager='neutron.agent.l3.agent.L3NATAgentWithStateReport'):
         manager=manager)
     service.launch(cfg.CONF, server).wait()
 ```
-´«ÈëµÄmanagerÀàÎªneutron.agent.l3.agent:L3NATAgentWithStateReport£¬¸ÃÀà¼Ì³ĞÁËL3NATAgent£¬L3NATAgentÀàÊµÏÖÁËÓÉneutron-server´¥·¢µÄ²Ù×÷¡£neutron-server¶Ôl3-agentµÄ²Ù×÷ÔÚneutron.api.rpc.agentnotifiers.l3_rpc_agent_api:L3AgentNotifyAPIÀàÖĞ¶¨Òå¡£ÈçÏÂ£º
-RPC|ÃèÊö
+ä¼ å…¥çš„managerç±»ä¸ºneutron.agent.l3.agent:L3NATAgentWithStateReportï¼Œè¯¥ç±»ç»§æ‰¿äº†L3NATAgentï¼ŒL3NATAgentç±»å®ç°äº†ç”±neutron-serverè§¦å‘çš„æ“ä½œã€‚neutron-serverå¯¹l3-agentçš„æ“ä½œåœ¨neutron.api.rpc.agentnotifiers.l3_rpc_agent_api:L3AgentNotifyAPIç±»ä¸­å®šä¹‰ã€‚å¦‚ä¸‹ï¼š
+RPC|æè¿°
 ---|---
 agent_updated|
-router_deleted|deleteÊ±
-routers_updated|¸üĞÂÂ·ÓÉÊ±´¥·¢£¨°üÀ¨gateway£©*
-add_arp_entry|DVRÊ¹ÓÃ*
-del_arp_entry|DVRÊ¹ÓÃ*
-router_removed_from_agent|l3-agent-router-removeºÍrescheduler routerÊ±
-router_added_to_agent|l3-agent-router-addºÍrescheduler routerÊ±
+router_deleted|deleteæ—¶
+routers_updated|æ›´æ–°è·¯ç”±æ—¶è§¦å‘ï¼ˆåŒ…æ‹¬gatewayï¼‰*
+add_arp_entry|DVRä½¿ç”¨*
+del_arp_entry|DVRä½¿ç”¨*
+router_removed_from_agent|l3-agent-router-removeå’Œrescheduler routeræ—¶
+router_added_to_agent|l3-agent-router-addå’Œrescheduler routeræ—¶
 
-l3-agentÆô¶¯Ö®³õ£¬»áÆô¶¯Ò»¸öÑ­»·loop£¬µÈ´ı´¦ÀíqueueÖĞµÄÂ·ÓÉ¡£
+l3-agentå¯åŠ¨ä¹‹åˆï¼Œä¼šå¯åŠ¨ä¸€ä¸ªå¾ªç¯loopï¼Œç­‰å¾…å¤„ç†queueä¸­çš„è·¯ç”±ã€‚
 ```python
 # neutron/agent/l3/agent.py
     def after_start(self):
@@ -54,7 +54,7 @@ l3-agentÆô¶¯Ö®³õ£¬»áÆô¶¯Ò»¸öÑ­»·loop£¬µÈ´ı´¦ÀíqueueÖĞµÄÂ·ÓÉ¡£
         while True:
             pool.spawn_n(self._process_router_update)
 ```
-_process_router_updateº¯Êı´ÓqueueÖĞ¶Á³öÊı¾İ²¢´¦ÀíµÄ¡£½ô½Ó×Å£¬l3-agent»á´Óneutron-server»ñÈ¡Â·ÓÉÅäÖÃ£¬²¢½«ĞèÒª¸üĞÂµÄÂ·ÓÉ£¨±¾µØÓëÊı¾İ¿âÖĞµÄ²îÖµ£©·ÅÈëqueue¡£
+_process_router_updateå‡½æ•°ä»queueä¸­è¯»å‡ºæ•°æ®å¹¶å¤„ç†çš„ã€‚ç´§æ¥ç€ï¼Œl3-agentä¼šä»neutron-serverè·å–è·¯ç”±é…ç½®ï¼Œå¹¶å°†éœ€è¦æ›´æ–°çš„è·¯ç”±ï¼ˆæœ¬åœ°ä¸æ•°æ®åº“ä¸­çš„å·®å€¼ï¼‰æ”¾å…¥queueã€‚
 ```
 graph TB
 after_start --> periodic_sync_routers_task
@@ -62,9 +62,9 @@ periodic_sync_routers_task --> fetch_and_sync_all_routers
 fetch_and_sync_all_routers --> get_routers
 fetch_and_sync_all_routers --> queue.add
 ```
-**Note£º** ÈçºÎ´¥·¢_process_router_updateÖ´ĞĞĞèÒª½øÒ»²½È·ÈÏ¡£
-#### agentÆô¶¯Ê±µÄns¹ÜÀí
-l3 agent Æô¶¯Ö®ºó£¬»áÊ¹ÓÃperiodic_sync_routers_taskº¯Êı´Óneutron serverÀ­Ò»´Î±¾agentÉÏµÄÈ«²¿routerµÄÊı¾İ£¬²¢¶Ô±¾µØµÄnamespace½øĞĞ¹ÜÀí¡£¸Ãº¯ÊıµÄ´úÂëÈçÏÂ£º
+**Noteï¼š** å¦‚ä½•è§¦å‘_process_router_updateæ‰§è¡Œéœ€è¦è¿›ä¸€æ­¥ç¡®è®¤ã€‚
+#### agentå¯åŠ¨æ—¶çš„nsç®¡ç†
+l3 agent å¯åŠ¨ä¹‹åï¼Œä¼šä½¿ç”¨periodic_sync_routers_taskå‡½æ•°ä»neutron serveræ‹‰ä¸€æ¬¡æœ¬agentä¸Šçš„å…¨éƒ¨routerçš„æ•°æ®ï¼Œå¹¶å¯¹æœ¬åœ°çš„namespaceè¿›è¡Œç®¡ç†ã€‚è¯¥å‡½æ•°çš„ä»£ç å¦‚ä¸‹ï¼š
 ```python
 # neutron/agent/l3/agent.py
     def periodic_sync_routers_task(self, context):
@@ -77,7 +77,7 @@ l3 agent Æô¶¯Ö®ºó£¬»áÊ¹ÓÃperiodic_sync_routers_taskº¯Êı´Óneutron serverÀ­Ò»´Î±¾a
         except n_exc.AbortSyncRouters:
             self.fullsync = True
 ```
-ÆäÖĞ¡°with self.namespaces_manager as ns_manager¡±»áµ÷ÓÃnamespaces_managerµÄ__enter__º¯Êı£¬¸Ãº¯Êı²éÑ¯±¾»úÉÏËùÓĞµÄqrouter namespace£¬²¢½«Æä±£´æÔÚnamespaces_manager¶ÔÏóµÄ_all_namespacesÖĞ¡£
+å…¶ä¸­â€œwith self.namespaces_manager as ns_managerâ€ä¼šè°ƒç”¨namespaces_managerçš„__enter__å‡½æ•°ï¼Œè¯¥å‡½æ•°æŸ¥è¯¢æœ¬æœºä¸Šæ‰€æœ‰çš„qrouter namespaceï¼Œå¹¶å°†å…¶ä¿å­˜åœ¨namespaces_managerå¯¹è±¡çš„_all_namespacesä¸­ã€‚
 ```python
 # neutron/agent/l3/namespace_manager.py
     def __enter__(self):
@@ -87,7 +87,7 @@ l3 agent Æô¶¯Ö®ºó£¬»áÊ¹ÓÃperiodic_sync_routers_taskº¯Êı´Óneutron serverÀ­Ò»´Î±¾a
             self._all_namespaces = self.list_all()
         return self
 ```
-½Ó×Åfetch_and_sync_all_routers»á´Óneutron server×¥È¡ËùÓĞÊôÓÚ¸ÃagentµÄrouterĞÅÏ¢£¬²¢½«ËûÃÇ¼ÓÈëupdate queueÖĞ£¨queueÖĞrouterµÄ¸üĞÂÏÂÎÄ½«ÏêÏ¸ÃèÊö£©¡£Í¬Ê±ºÜÖØ°¡µÄÒ»µãÊÇ£¬¸Ãº¯Êı»¹»á°ÑËùÓĞrouter¼ÇÂ¼ÔÚnamespaces_managerµÄ_ids_to_keepÖĞ£¬±íÊ¾¸ÃnamespaceĞèÒª±£Áô¡£
+æ¥ç€fetch_and_sync_all_routersä¼šä»neutron serveræŠ“å–æ‰€æœ‰å±äºè¯¥agentçš„routerä¿¡æ¯ï¼Œå¹¶å°†ä»–ä»¬åŠ å…¥update queueä¸­ï¼ˆqueueä¸­routerçš„æ›´æ–°ä¸‹æ–‡å°†è¯¦ç»†æè¿°ï¼‰ã€‚åŒæ—¶å¾ˆé‡å•Šçš„ä¸€ç‚¹æ˜¯ï¼Œè¯¥å‡½æ•°è¿˜ä¼šæŠŠæ‰€æœ‰routerè®°å½•åœ¨namespaces_managerçš„_ids_to_keepä¸­ï¼Œè¡¨ç¤ºè¯¥namespaceéœ€è¦ä¿ç•™ã€‚
 ```python
 # neutron/agent/l3/agent.py
     def fetch_and_sync_all_routers(self, context, ns_manager):
@@ -107,14 +107,14 @@ l3 agent Æô¶¯Ö®ºó£¬»áÊ¹ÓÃperiodic_sync_routers_taskº¯Êı´Óneutron serverÀ­Ò»´Î±¾a
     def keep_router(self, router_id):
         self._ids_to_keep.add(router_id)
 ```
-ÔÚperiodic_sync_routers_taskº¯ÊıÖĞÓï¾ä¡°with self.namespaces_manager as ns_manager¡±Ö´ĞĞ¿éÖ®ºó£¬»á×Ô¶¯µ÷ÓÃself.namespaces_managerµÄ__exit__º¯Êı£¨pythonµÄwith¹Ø¼ü×Ö£©£¬ÔÚ¸Ãº¯ÊıÖĞnamespaces_manager»á½«_all_namespacesÖĞ²»ÔÚ_ids_to_keepµÄnamespaceÉ¾³ı¡£
+åœ¨periodic_sync_routers_taskå‡½æ•°ä¸­è¯­å¥â€œwith self.namespaces_manager as ns_managerâ€æ‰§è¡Œå—ä¹‹åï¼Œä¼šè‡ªåŠ¨è°ƒç”¨self.namespaces_managerçš„__exit__å‡½æ•°ï¼ˆpythonçš„withå…³é”®å­—ï¼‰ï¼Œåœ¨è¯¥å‡½æ•°ä¸­namespaces_managerä¼šå°†_all_namespacesä¸­ä¸åœ¨_ids_to_keepçš„namespaceåˆ é™¤ã€‚
 ```python
 # neutron/agent/l3/namespace_manager.py
     def __exit__(self, exc_type, value, traceback):
         if not self._clean_stale
-            #²»ĞèÒªÉ¾³ı
+            #ä¸éœ€è¦åˆ é™¤
             return True
-        ¼´Ê¹ĞèÒªÉ¾³ı£¬Ò²¾ÍÕâÒ»´Î£¨agent¸ÕÆô¶¯Ê±£©
+        å³ä½¿éœ€è¦åˆ é™¤ï¼Œä¹Ÿå°±è¿™ä¸€æ¬¡ï¼ˆagentåˆšå¯åŠ¨æ—¶ï¼‰
         self._clean_stale = False
 
         for ns in self._all_namespaces:
@@ -124,7 +124,7 @@ l3 agent Æô¶¯Ö®ºó£¬»áÊ¹ÓÃperiodic_sync_routers_taskº¯Êı´Óneutron serverÀ­Ò»´Î±¾a
             self._cleanup(_ns_prefix, ns_id)
         return True
 ```
-Î´ÖªnamespaceµÄÉ¾³ıÁ÷³ÌÓëÕı³£routerµÄÉ¾³ıÁ÷³Ì²»Í¬¡£Õı³£µÄÂ·ÓÉÉ¾³ı»á°´ÕÕÊı¾İ¿âÖĞµÄÅäÖÃÉ¾³ıip¡¢port¡¢routeÖ®ºóÔÙÉ¾³ıns£»¶øÎªÖ¹nsµÄÉ¾³ı±È½Ï¼òµ¥£¬Ö»ÊÇ½«¸ÃnsÖĞµÄportÉ¾³ı¼´¿É½øĞĞnsµÄÉ¾³ı¶¯×÷¡£
+æœªçŸ¥namespaceçš„åˆ é™¤æµç¨‹ä¸æ­£å¸¸routerçš„åˆ é™¤æµç¨‹ä¸åŒã€‚æ­£å¸¸çš„è·¯ç”±åˆ é™¤ä¼šæŒ‰ç…§æ•°æ®åº“ä¸­çš„é…ç½®åˆ é™¤ipã€portã€routeä¹‹åå†åˆ é™¤nsï¼›è€Œä¸ºæ­¢nsçš„åˆ é™¤æ¯”è¾ƒç®€å•ï¼Œåªæ˜¯å°†è¯¥nsä¸­çš„portåˆ é™¤å³å¯è¿›è¡Œnsçš„åˆ é™¤åŠ¨ä½œã€‚
 ```python
 # neutron/agent/l3/namespace_manager.py
     def _cleanup(self, ns_prefix, ns_id):
@@ -132,10 +132,10 @@ l3 agent Æô¶¯Ö®ºó£¬»áÊ¹ÓÃperiodic_sync_routers_taskº¯Êı´Óneutron serverÀ­Ò»´Î±¾a
         ns = ns_class(ns_id, self.agent_conf, self.driver, use_ipv6=False)
         try:
             if self.metadata_driver:
-                # É¾³ımetadata proxy½ø³Ì£¨Èç¹ûÓĞµÄ»°£©
+                # åˆ é™¤metadata proxyè¿›ç¨‹ï¼ˆå¦‚æœæœ‰çš„è¯ï¼‰
                 self.metadata_driver.destroy_monitored_metadata_proxy(
                     self.process_monitor, ns_id, self.agent_conf)
-            # É¾³ınamespace
+            # åˆ é™¤namespace
             ns.delete()
         except RuntimeError:
             LOG.exception(_LE('Failed to destroy stale namespace %s'), ns)
@@ -160,25 +160,25 @@ l3 agent Æô¶¯Ö®ºó£¬»áÊ¹ÓÃperiodic_sync_routers_taskº¯Êı´Óneutron serverÀ­Ò»´Î±¾a
 
         super(RouterNamespace, self).delete()
 ```
-¿ÉÒÔ¿´µ½£¬ÕâÀïµÄdeleteº¯ÊıÖ»ÊÇÉ¾³ıdevices£¬°üÀ¨qgÉè±¸¡¢qrÉè±¸ÒÔ¼°vethÉè±¸£¬È»ºó¾Íµ÷ÓÃ³¬ÀàµÄdeleteº¯Êı½øĞĞip netns delete¶¯×÷¡£ËùÒÔÇå³şÒ»¸öqrouterµÄns²ĞÁôµÄÊ±ºò£¬Ö»ĞèÒª½«deviceÉ¾³ı£¬¾Í¿ÉÒÔÉ¾³ınsÁË¡£
-#### _process_router_updateº¯Êı
-_process_router_updateº¯ÊıÊÇl3-agent¾ßÌå²Ù×÷µÄÈë¿Úº¯Êı¡£
+å¯ä»¥çœ‹åˆ°ï¼Œè¿™é‡Œçš„deleteå‡½æ•°åªæ˜¯åˆ é™¤devicesï¼ŒåŒ…æ‹¬qgè®¾å¤‡ã€qrè®¾å¤‡ä»¥åŠvethè®¾å¤‡ï¼Œç„¶åå°±è°ƒç”¨è¶…ç±»çš„deleteå‡½æ•°è¿›è¡Œip netns deleteåŠ¨ä½œã€‚æ‰€ä»¥æ¸…æ¥šä¸€ä¸ªqrouterçš„nsæ®‹ç•™çš„æ—¶å€™ï¼Œåªéœ€è¦å°†deviceåˆ é™¤ï¼Œå°±å¯ä»¥åˆ é™¤nsäº†ã€‚
+#### _process_router_updateå‡½æ•°
+_process_router_updateå‡½æ•°æ˜¯l3-agentå…·ä½“æ“ä½œçš„å…¥å£å‡½æ•°ã€‚
 ```python
 # neutron/agent/l3/agent.py
     def _process_router_update(self):
-        # ´ÓqueueÖĞÈ¡³öÃ¿¸öupdateÈÎÎñ
+        # ä»queueä¸­å–å‡ºæ¯ä¸ªupdateä»»åŠ¡
         for rp, update in self._queue.each_update_to_next_router():
             # rp: RouterProcesser
-            # update.id£º¸üĞÂµÄrouter id
-            # update.router: ¾ßÌårouterĞÅÏ¢
-            # update.action£º ²Ù×÷
-            # update.priority£º ²Ù×÷ÓÅÏÈ¼¶
-            # IPv6Ç°×º¸üĞÂ[?]
+            # update.idï¼šæ›´æ–°çš„router id
+            # update.router: å…·ä½“routerä¿¡æ¯
+            # update.actionï¼š æ“ä½œ
+            # update.priorityï¼š æ“ä½œä¼˜å…ˆçº§
+            # IPv6å‰ç¼€æ›´æ–°[?]
             if update.action == queue.PD_UPDATE:
                 self.pd.process_prefix_update()
                 continue
             router = update.router
-            # Ö»ÓĞÔÚÉ¾³ıÊ±update.router²Å»áÎªNone£¬Èç¹ûÆäËû²Ù×÷ÏÂÎ´´«Èërouter£¬ĞèÒªÍ¨¹ırpcÇëÇóneutron server»ñÈ¡routerĞÅÏ¢¡£
+            # åªæœ‰åœ¨åˆ é™¤æ—¶update.routeræ‰ä¼šä¸ºNoneï¼Œå¦‚æœå…¶ä»–æ“ä½œä¸‹æœªä¼ å…¥routerï¼Œéœ€è¦é€šè¿‡rpcè¯·æ±‚neutron serverè·å–routerä¿¡æ¯ã€‚
             if update.action != queue.DELETE_ROUTER and not router:
                 try:
                     update.timestamp = timeutils.utcnow()
@@ -193,34 +193,34 @@ _process_router_updateº¯ÊıÊÇl3-agent¾ßÌå²Ù×÷µÄÈë¿Úº¯Êı¡£
                 if routers:
                     router = routers[0]
             
-            # actionÎªÉ¾³ıÂ·ÓÉ£¬»òÕß¸ù¾İidÕÒ²»µ½routerĞÅÏ¢£¨Êı¾İ¿âÖĞÒÑ¾­É¾³ı£©Ê±£¬½øĞĞÉ¾³ıÂ·ÓÉ²Ù×÷¡£
+            # actionä¸ºåˆ é™¤è·¯ç”±ï¼Œæˆ–è€…æ ¹æ®idæ‰¾ä¸åˆ°routerä¿¡æ¯ï¼ˆæ•°æ®åº“ä¸­å·²ç»åˆ é™¤ï¼‰æ—¶ï¼Œè¿›è¡Œåˆ é™¤è·¯ç”±æ“ä½œã€‚
             if not router:
                 removed = self._safe_router_removed(update.id)
                 if not removed:
-                    # µ±Ö´ĞĞperiodic_sync_routers_taskµÄÊ±ºòÖØÊÔ¸Ã²Ù×÷[²¢Ã»ÓĞÖ´ĞĞ?]
+                    # å½“æ‰§è¡Œperiodic_sync_routers_taskçš„æ—¶å€™é‡è¯•è¯¥æ“ä½œ[å¹¶æ²¡æœ‰æ‰§è¡Œ?]
                     self.fullsync = True
                 else:
-                    # ¸üĞÂupdatetimeÓò
+                    # æ›´æ–°updatetimeåŸŸ
                     rp.fetched_and_processed(update.timestamp)
                 continue
 
             try:
-                # ¸üĞÂÂ·ÓÉ£¬°üÀ¨ÔÚ´´½¨²Ù×÷ÒÔ¼°¸üĞÂ²Ù×÷
+                # æ›´æ–°è·¯ç”±ï¼ŒåŒ…æ‹¬åœ¨åˆ›å»ºæ“ä½œä»¥åŠæ›´æ–°æ“ä½œ
                 self._process_router_if_compatible(router)
             except n_exc.RouterNotCompatibleWithAgent as e:
-                # ¸üĞÂÊ§°Ü£¨RouterNotCompatibleWithAgent £¿£©£¬É¾³ıÂ·ÓÉ
+                # æ›´æ–°å¤±è´¥ï¼ˆRouterNotCompatibleWithAgent ï¼Ÿï¼‰ï¼Œåˆ é™¤è·¯ç”±
                     self._safe_router_removed(router['id'])
             except Exception:
-                # ¸üĞÂÊ§°Ü£¬ËÅ»úÖØÊÔ
+                # æ›´æ–°å¤±è´¥ï¼Œä¼ºæœºé‡è¯•
                 self.fullsync = True
                 continue
 
             LOG.debug("Finished a router update for %s", update.id)
             rp.fetched_and_processed(update.timestamp)  
 ```
-¿É¼û¸Ãº¯ÊıÖ÷Òª×öµÄ²Ù×÷ÊÇ´Óqueue¶ÁÈ¡ÈÎÎñ£¬²¢½«Æä·ÖÎªÉ¾³ıÂ·ÓÉºÍ¸üĞÂÂ·ÓÉ²Ù×÷£¬²¢½»ÓÉ_safe_router_removedºÍ_process_router_if_compatibleº¯Êı·Ö±ğ´¦Àí¡£ÕâÁ½¸öº¯ÊıÔÚÏÂÎÄ½éÉÜ¡£
+å¯è§è¯¥å‡½æ•°ä¸»è¦åšçš„æ“ä½œæ˜¯ä»queueè¯»å–ä»»åŠ¡ï¼Œå¹¶å°†å…¶åˆ†ä¸ºåˆ é™¤è·¯ç”±å’Œæ›´æ–°è·¯ç”±æ“ä½œï¼Œå¹¶äº¤ç”±_safe_router_removedå’Œ_process_router_if_compatibleå‡½æ•°åˆ†åˆ«å¤„ç†ã€‚è¿™ä¸¤ä¸ªå‡½æ•°åœ¨ä¸‹æ–‡ä»‹ç»ã€‚
 ### 2. router_deleted
-#### µ÷ÓÃ´¥·¢
+#### è°ƒç”¨è§¦å‘
 1. delete_router <-- DELETE /routers/{router_id}
 ```python
 # neutron/db/l3_db.py
@@ -231,14 +231,14 @@ _process_router_updateº¯ÊıÊÇl3-agent¾ßÌå²Ù×÷µÄÈë¿Úº¯Êı¡£
     def notify_router_deleted(self, context, router_id):
         self.l3_rpc_notifier.router_deleted(context, router_id)
 ```
-ÒÔ¹ã²¥·½Ê½Í¨ÖªËùÓĞl3-agent¡£
+ä»¥å¹¿æ’­æ–¹å¼é€šçŸ¥æ‰€æœ‰l3-agentã€‚
 ```python
 # neutron/api/rpc/agentnotifiers/l3_rpc_agent_api.py
     def router_deleted(self, context, router_id):
         self._notification_fanout(context, 'router_deleted', router_id)
 ```
-#### ´¦ÀíÁ÷³Ì
-l3-agentµÄRPC·şÎñÆ÷½ÓÊÕµ½ÉÏÊöÍ¨Öªºó£¬»áµ÷ÓÃL3NATAgentWithStateReportÀàµÄrouter_deletedº¯Êı¡£¸Ãº¯ÊıÔÚqueueÖĞ·ÅÈëÒ»¸öupdateÊÂ¼ş£¬actionÎªDELETE_ROUTER£¬²ÎÊıÎªÒªÉ¾³ıµÄrouter_id¡££¨ÎŞĞèrouterÏêÏ¸ĞÅÏ¢£©
+#### å¤„ç†æµç¨‹
+l3-agentçš„RPCæœåŠ¡å™¨æ¥æ”¶åˆ°ä¸Šè¿°é€šçŸ¥åï¼Œä¼šè°ƒç”¨L3NATAgentWithStateReportç±»çš„router_deletedå‡½æ•°ã€‚è¯¥å‡½æ•°åœ¨queueä¸­æ”¾å…¥ä¸€ä¸ªupdateäº‹ä»¶ï¼Œactionä¸ºDELETE_ROUTERï¼Œå‚æ•°ä¸ºè¦åˆ é™¤çš„router_idã€‚ï¼ˆæ— éœ€routerè¯¦ç»†ä¿¡æ¯ï¼‰
 ```python
 # neutron/agent/l3/agent.py
     def router_deleted(self, context, router_id):
@@ -249,7 +249,7 @@ l3-agentµÄRPC·şÎñÆ÷½ÓÊÕµ½ÉÏÊöÍ¨Öªºó£¬»áµ÷ÓÃL3NATAgentWithStateReportÀàµÄrouter_d
                                     action=queue.DELETE_ROUTER)
         self._queue.add(update)
 ```
-¸Ã²Ù×÷×îÖÕÓÉ_router_removed¾ßÌåÖ´ĞĞ¡£
+è¯¥æ“ä½œæœ€ç»ˆç”±_router_removedå…·ä½“æ‰§è¡Œã€‚
 ```
 graph TB
 _process_router_update --> _safe_router_removed
@@ -257,22 +257,22 @@ _safe_router_removed --> _router_removed
 _router_removed --> namespaces_manager.ensure_router_cleanup
 _router_removed --> router_info.delete
 namespaces_manager.ensure_router_cleanup --> _cleanup
-_cleanup --> ns.delete/É¾³ınamespace
-router_info.delete --> process/Çå¿ÕrouterµÄËùÓĞÅäÖÃ
+_cleanup --> ns.delete/åˆ é™¤namespace
+router_info.delete --> process/æ¸…ç©ºrouterçš„æ‰€æœ‰é…ç½®
 ```
 
 ### 3.routers_updated
-#### µ÷ÓÃ´¥·¢
+#### è°ƒç”¨è§¦å‘
 1. create_floatingip <-- POST /floatingips
 2. delete_floatingip <-- DELETE /floatingips/{floatingip_id}
 3. update_router <-- PUT /routers/{router_id}
 4. udpate_floatingip <-- PUT /floatingips/{floatingip_id}
 5. update_bw_bind
-6. subscribe* <-- Æô¶¯Ê±
+6. subscribe* <-- å¯åŠ¨æ—¶
 
-ÆäÖĞexternal gatewayµÄÉèÖÃµ÷ÓÃµÄneutron apiÊÇPUT /routers/{router_id}£¬´Ó¶ø´¥·¢ÁËupdate_router£¬½ø¶ø´¥·¢l3-agentµ÷ÓÃrouters_updated¡£
-#### ´¦ÀíÁ÷³Ì
-l3-agentÊÕµ½ÉÏÊöÇëÇóºó£¬»áµ÷ÓÃL3NATAgentWithStateReportÀàµÄrouters_updatedº¯Êı,¸Ãº¯Êı½«Â·ÓÉÁĞ±íÖĞµÄÃ¿¸öÂ·ÓÉid·â×°ÎªÒ»¸öupdate¶ÔÏó£¬actionÎªNone£¨È±Ê¡²Ù×÷Îª¸üĞÂ£©£¬×îºó·ÅÈëqueueÖĞ¡£
+å…¶ä¸­external gatewayçš„è®¾ç½®è°ƒç”¨çš„neutron apiæ˜¯PUT /routers/{router_id}ï¼Œä»è€Œè§¦å‘äº†update_routerï¼Œè¿›è€Œè§¦å‘l3-agentè°ƒç”¨routers_updatedã€‚
+#### å¤„ç†æµç¨‹
+l3-agentæ”¶åˆ°ä¸Šè¿°è¯·æ±‚åï¼Œä¼šè°ƒç”¨L3NATAgentWithStateReportç±»çš„routers_updatedå‡½æ•°,è¯¥å‡½æ•°å°†è·¯ç”±åˆ—è¡¨ä¸­çš„æ¯ä¸ªè·¯ç”±idå°è£…ä¸ºä¸€ä¸ªupdateå¯¹è±¡ï¼Œactionä¸ºNoneï¼ˆç¼ºçœæ“ä½œä¸ºæ›´æ–°ï¼‰ï¼Œæœ€åæ”¾å…¥queueä¸­ã€‚
 ```python
 # neutron/agent/l3/agent.py
    def routers_updated(self, context, routers):
@@ -285,7 +285,7 @@ l3-agentÊÕµ½ÉÏÊöÇëÇóºó£¬»áµ÷ÓÃL3NATAgentWithStateReportÀàµÄrouters_updatedº¯Êı,¸
                 update = queue.RouterUpdate(id, queue.PRIORITY_RPC)
                 self._queue.add(update)
 ```
-×îÖÕ¸Ã²Ù×÷ÓÉ_process_router_if_compatibleº¯ÊıÖ´ĞĞ¡£¸Ãº¯ÊıÖ÷Òª½øĞĞÂ·ÓÉnsµÄ´´½¨»òÅäÖÃ¸üĞÂ¡£
+æœ€ç»ˆè¯¥æ“ä½œç”±_process_router_if_compatibleå‡½æ•°æ‰§è¡Œã€‚è¯¥å‡½æ•°ä¸»è¦è¿›è¡Œè·¯ç”±nsçš„åˆ›å»ºæˆ–é…ç½®æ›´æ–°ã€‚
 ```python
 # neutron/agent/l3/agent.py
     def _process_router_if_compatible(self, router):
@@ -295,23 +295,23 @@ l3-agentÊÕµ½ÉÏÊöÇëÇóºó£¬»áµ÷ÓÃL3NATAgentWithStateReportÀàµÄrouters_updatedº¯Êı,¸
         else:
             self._process_updated_router(router)
 ```
-l3-agentÎ¬»¤µÄÂ·ÓÉ×ÊÔ´ÓÉnamespaceÀ´ÌåÏÖ£¬ÓÉrouter_infoÀ´¼ÇÂ¼¡£Òò´ËÂ·ÓÉµÄ´´½¨ºÍ¸üĞÂ¶¼¶ÔÓ¦µ½router_infoµÄ´´½¨ºÍ¸üĞÂ£¬ÒÔ¼°namespaceµÄ´´½¨¡£_process_updated_routerÖ÷Òªµ÷ÓÃÁËÂ·ÓÉµÄrouter_info¶ÔÏóµÄprocess·½·¨£¬¸Ã·½·¨»á¸ù¾İrouter_info¶ÔÏóµÄrouterÊôĞÔ£¨routerÊôĞÔµÄ¼ÇÂ¼£©ÔÚrouterµÄnamespaceÖĞ½øĞĞiptablesºÍroute tableµÄ²Ù×÷;_process_added_routerº¯Êı×öµÄ¹¤×÷£¬¾ÍÊÇÏÈ´´½¨Ò»¸örouter_info¶ÔÏó£¨Í¬Ê±´´½¨namespace£©£¬½«Æä¼ÓÈëµ½routersÁĞ±íÖĞ£¬È»ºóÔÙÖ´ĞĞrouter_info¶ÔÏóµÄprocess·½·¨¡£
+l3-agentç»´æŠ¤çš„è·¯ç”±èµ„æºç”±namespaceæ¥ä½“ç°ï¼Œç”±router_infoæ¥è®°å½•ã€‚å› æ­¤è·¯ç”±çš„åˆ›å»ºå’Œæ›´æ–°éƒ½å¯¹åº”åˆ°router_infoçš„åˆ›å»ºå’Œæ›´æ–°ï¼Œä»¥åŠnamespaceçš„åˆ›å»ºã€‚_process_updated_routerä¸»è¦è°ƒç”¨äº†è·¯ç”±çš„router_infoå¯¹è±¡çš„processæ–¹æ³•ï¼Œè¯¥æ–¹æ³•ä¼šæ ¹æ®router_infoå¯¹è±¡çš„routerå±æ€§ï¼ˆrouterå±æ€§çš„è®°å½•ï¼‰åœ¨routerçš„namespaceä¸­è¿›è¡Œiptableså’Œroute tableçš„æ“ä½œ;_process_added_routerå‡½æ•°åšçš„å·¥ä½œï¼Œå°±æ˜¯å…ˆåˆ›å»ºä¸€ä¸ªrouter_infoå¯¹è±¡ï¼ˆåŒæ—¶åˆ›å»ºnamespaceï¼‰ï¼Œå°†å…¶åŠ å…¥åˆ°routersåˆ—è¡¨ä¸­ï¼Œç„¶åå†æ‰§è¡Œrouter_infoå¯¹è±¡çš„processæ–¹æ³•ã€‚
 ```python
 # neutron/agent/l3/router_info.py
     def process(self, agent):
         self._process_internal_ports(agent.pd)
         agent.pd.sync_router(self.router['id'])
         self.process_external(agent)
-        # ¸üĞÂ¾²Ì¬Â·ÓÉÅäÖÃ
+        # æ›´æ–°é™æ€è·¯ç”±é…ç½®
         self.routes_updated()
 
-        # ¸üĞÂexternal gateway port
+        # æ›´æ–°external gateway port
         self.ex_gw_port = self.get_ex_gw_port()
-        # ¸üĞÂenable_snat£¬Èç¹ûÎªFalse£¬Ôò²»»áÅäÖÃiptables snat¹æÔò
+        # æ›´æ–°enable_snatï¼Œå¦‚æœä¸ºFalseï¼Œåˆ™ä¸ä¼šé…ç½®iptables snatè§„åˆ™
         self.enable_snat = self.router.get('enable_snat')
 ```
 #### _process_internal_ports
-º¯Êı_process_internal_ports½øĞĞÁËÂ·ÓÉÆ÷ÉÏµÄports¸üĞÂ¡£ÓÉcurrent_portsºÍexisting_ports¶Ô±ÈµÃµ½ĞÂÔöµÄ¡¢É¾³ıµÄºÍ¸üĞÂµÄports£¬·Ö±ğ½øĞĞ´¦Àí¡£
+å‡½æ•°_process_internal_portsè¿›è¡Œäº†è·¯ç”±å™¨ä¸Šçš„portsæ›´æ–°ã€‚ç”±current_portså’Œexisting_portså¯¹æ¯”å¾—åˆ°æ–°å¢çš„ã€åˆ é™¤çš„å’Œæ›´æ–°çš„portsï¼Œåˆ†åˆ«è¿›è¡Œå¤„ç†ã€‚
 ```python
 # neutron/agent/l3/router_info.py
     def _process_internal_ports(self, pd):
@@ -322,7 +322,7 @@ l3-agentÎ¬»¤µÄÂ·ÓÉ×ÊÔ´ÓÉnamespaceÀ´ÌåÏÖ£¬ÓÉrouter_infoÀ´¼ÇÂ¼¡£Òò´ËÂ·ÓÉµÄ´´½¨ºÍ¸ü
                                if p['admin_state_up'])
 
         new_port_ids = current_port_ids - existing_port_ids
-        # µÃµ½ĞÂ½¨µÄ£¬É¾³ıµÄ£¬ÒÔ¼°¸üĞÂµÄports
+        # å¾—åˆ°æ–°å»ºçš„ï¼Œåˆ é™¤çš„ï¼Œä»¥åŠæ›´æ–°çš„ports
         new_ports = [p for p in internal_ports if p['id'] in new_port_ids]
         old_ports = [p for p in self.internal_ports
                      if p['id'] not in current_port_ids]
@@ -330,7 +330,7 @@ l3-agentÎ¬»¤µÄÂ·ÓÉ×ÊÔ´ÓÉnamespaceÀ´ÌåÏÖ£¬ÓÉrouter_infoÀ´¼ÇÂ¼¡£Òò´ËÂ·ÓÉµÄ´´½¨ºÍ¸ü
                                                 internal_ports)
 
         enable_ra = False
-        # ĞÂ½¨ports
+        # æ–°å»ºports
         for p in new_ports:
             self.internal_network_added(p)
             self.internal_ports.append(p)
@@ -341,7 +341,7 @@ l3-agentÎ¬»¤µÄÂ·ÓÉ×ÊÔ´ÓÉnamespaceÀ´ÌåÏÖ£¬ÓÉrouter_infoÀ´¼ÇÂ¼¡£Òò´ËÂ·ÓÉµÄ´´½¨ºÍ¸ü
                     pd.enable_subnet(self.router_id, subnet['id'],
                                      subnet['cidr'],
                                      interface_name, p['mac_address'])
-        # É¾³ıports
+        # åˆ é™¤ports
         for p in old_ports:
             self.internal_network_removed(p)
             self.internal_ports.remove(p)
@@ -349,7 +349,7 @@ l3-agentÎ¬»¤µÄÂ·ÓÉ×ÊÔ´ÓÉnamespaceÀ´ÌåÏÖ£¬ÓÉrouter_infoÀ´¼ÇÂ¼¡£Òò´ËÂ·ÓÉµÄ´´½¨ºÍ¸ü
             for subnet in p['subnets']:
                 if ipv6_utils.is_ipv6_pd_enabled(subnet):
                     pd.disable_subnet(self.router_id, subnet['id'])
-        # ¸üĞÂports
+        # æ›´æ–°ports
         updated_cidrs = []
         if updated_ports:
             for index, p in enumerate(internal_ports):
@@ -381,16 +381,16 @@ l3-agentÎ¬»¤µÄÂ·ÓÉ×ÊÔ´ÓÉnamespaceÀ´ÌåÏÖ£¬ÓÉrouter_infoÀ´¼ÇÂ¼¡£Òò´ËÂ·ÓÉµÄ´´½¨ºÍ¸ü
         # Enable RA[?]
         if enable_ra:
             self.enable_radvd(internal_ports)
-        # É¾µô²»ĞèÒªµÄqr-Éè±¸£¨ÀíÂÛ²»ĞèÒª£¬ÒòÎªÖ®Ç°É¾³ıportÒÑ¾­°ÑÉè±¸ÒÆ³ıÁË¡££©
+        # åˆ æ‰ä¸éœ€è¦çš„qr-è®¾å¤‡ï¼ˆç†è®ºä¸éœ€è¦ï¼Œå› ä¸ºä¹‹å‰åˆ é™¤portå·²ç»æŠŠè®¾å¤‡ç§»é™¤äº†ã€‚ï¼‰
         existing_devices = self._get_existing_devices()
-        # ´ÓnsÖĞµÄ/sys/class/netÖĞ²éÕÒĞéÄâ½Ó¿ÚÉè±¸
+        # ä»nsä¸­çš„/sys/class/netä¸­æŸ¥æ‰¾è™šæ‹Ÿæ¥å£è®¾å¤‡
         current_internal_devs = set(n for n in existing_devices
                                     if n.startswith(INTERNAL_DEV_PREFIX))
-        # »ñµÃµ±Ç°ĞéÄâ½Ó¿ÚÉè±¸Ãû×ÖÁĞ±í£¨qr-XXX£©
+        # è·å¾—å½“å‰è™šæ‹Ÿæ¥å£è®¾å¤‡åå­—åˆ—è¡¨ï¼ˆqr-XXXï¼‰
         current_port_devs = set(self.get_internal_device_name(port_id)
                                 for port_id in current_port_ids)
         stale_devs = current_internal_devs - current_port_devs
-        # °Îµô²»ĞèÒªµÄÉè±¸
+        # æ‹”æ‰ä¸éœ€è¦çš„è®¾å¤‡
         for stale_dev in stale_devs:
             LOG.debug('Deleting stale internal router device: %s',
                       stale_dev)
@@ -400,25 +400,25 @@ l3-agentÎ¬»¤µÄÂ·ÓÉ×ÊÔ´ÓÉnamespaceÀ´ÌåÏÖ£¬ÓÉrouter_infoÀ´¼ÇÂ¼¡£Òò´ËÂ·ÓÉµÄ´´½¨ºÍ¸ü
                                prefix=INTERNAL_DEV_PREFIX)
 
 ```
-ÆäÖĞ×îÖ÷ÒªµÄÈı¸öº¯Êıinternal_network_added, internal_network_removed, internal_network_updated¡£
+å…¶ä¸­æœ€ä¸»è¦çš„ä¸‰ä¸ªå‡½æ•°internal_network_added, internal_network_removed, internal_network_updatedã€‚
 
-internal_network_addedº¯Êıµ÷ÓÃÁË_internal_network_addedº¯Êı£¬¸Ãº¯ÊıÍê³ÉĞéÄâÉè±¸qr-xxxµÄ¾Í²åÈë£¨plug£©£¬²¢Í¨¹ıinit_router_port µ÷ÓÃinit_l3Íê³ÉĞéÄâÉè±¸cidrµÄÅäÖÃ¡£
+internal_network_addedå‡½æ•°è°ƒç”¨äº†_internal_network_addedå‡½æ•°ï¼Œè¯¥å‡½æ•°å®Œæˆè™šæ‹Ÿè®¾å¤‡qr-xxxçš„å°±æ’å…¥ï¼ˆplugï¼‰ï¼Œå¹¶é€šè¿‡init_router_port è°ƒç”¨init_l3å®Œæˆè™šæ‹Ÿè®¾å¤‡cidrçš„é…ç½®ã€‚
 ```
 graph TB
 internal_network_added --> _internal_network_added
-_internal_network_added --> driver.plug/µ÷ÓÃ¾ßÌåÇı¶¯µÄplug_new½øĞĞ²åÈë
+_internal_network_added --> driver.plug/è°ƒç”¨å…·ä½“é©±åŠ¨çš„plug_newè¿›è¡Œæ’å…¥
 _internal_network_added --> init_router_port
 init_router_port --> init_l3
 ```
-init-l3¾­¹ıÒ»ÏµÁĞµ÷ÓÃ£¬×îÖÕÖ´ĞĞshellÃüÁî: 
+init-l3ç»è¿‡ä¸€ç³»åˆ—è°ƒç”¨ï¼Œæœ€ç»ˆæ‰§è¡Œshellå‘½ä»¤: 
 ```shell
 ip netns exec qrouter-xxx ip addr add {cidrs} scope {scopy} dev {qr-xxx}
 ```
-Íê³ÉµØÖ·Ìí¼Ó¡£
+å®Œæˆåœ°å€æ·»åŠ ã€‚
 
-internal_network_removedº¯ÊıÖ±½Ó½«ĞéÄâÉè±¸qr-xxx°Î³ö£¨unplug£©£¬²»ĞèÒªÉ¾³ıcidrÅäÖÃ¡£
+internal_network_removedå‡½æ•°ç›´æ¥å°†è™šæ‹Ÿè®¾å¤‡qr-xxxæ‹”å‡ºï¼ˆunplugï¼‰ï¼Œä¸éœ€è¦åˆ é™¤cidré…ç½®ã€‚
 
-internal_network_updatedº¯ÊıÖ±½Óµ÷ÓÃinit_l3¶ÔĞéÄâÉè±¸qr-xxx½øĞĞcidrµÄÅäÖÃ¡£
+internal_network_updatedå‡½æ•°ç›´æ¥è°ƒç”¨init_l3å¯¹è™šæ‹Ÿè®¾å¤‡qr-xxxè¿›è¡Œcidrçš„é…ç½®ã€‚
 ```python
 # neutron/agent/l3/router_info.py
     def internal_network_updated(self, interface_name, ip_cidrs):
@@ -426,7 +426,7 @@ internal_network_updatedº¯ÊıÖ±½Óµ÷ÓÃinit_l3¶ÔĞéÄâÉè±¸qr-xxx½øĞĞcidrµÄÅäÖÃ¡£
                             namespace=self.ns_name)
 ```
 #### process_external
-process_external¸ºÔğÅäÖÃrouterµÄexternal gateway½Ó¿ÚÅäÖÃºÍfloating ipÅäÖÃ£¬Ö÷Òª°üÀ¨ipÅäÖÃºÍiptables¹æÔòÅäÖÃÁ½¸ö¶¯×÷¡£
+process_externalè´Ÿè´£é…ç½®routerçš„external gatewayæ¥å£é…ç½®å’Œfloating ipé…ç½®ï¼Œä¸»è¦åŒ…æ‹¬ipé…ç½®å’Œiptablesè§„åˆ™é…ç½®ä¸¤ä¸ªåŠ¨ä½œã€‚
 ```python
     def process_external(self, agent):
         fip_statuses = {}
@@ -456,7 +456,7 @@ process_external¸ºÔğÅäÖÃrouterµÄexternal gateway½Ó¿ÚÅäÖÃºÍfloating ipÅäÖÃ£¬Ö÷Òª°
             agent.update_fip_statuses(
                 self, existing_floating_ips, fip_statuses)
 ```
-##### _process_external_gatewayº¯ÊıÓÃÓÚÅäÖÃexternalÍø¹Ø¡£
+##### _process_external_gatewayå‡½æ•°ç”¨äºé…ç½®externalç½‘å…³ã€‚
 ```python
 # neutron/agent/l3/router_info.py
     def _process_external_gateway(self, ex_gw_port, pd):
@@ -476,7 +476,7 @@ process_external¸ºÔğÅäÖÃrouterµÄexternal gateway½Ó¿ÚÅäÖÃºÍfloating ipÅäÖÃ£¬Ö÷Òª°
         elif not ex_gw_port and self.ex_gw_port:
             self.external_gateway_removed(self.ex_gw_port, interface_name)
             pd.remove_gw_interface(self.router['id'])
-        # É¾µô²»ĞèÒªµÄqr-Éè±¸£¨ÀíÂÛ²»ĞèÒª£¬±£ÏÕÆğ¼û£©
+        # åˆ æ‰ä¸éœ€è¦çš„qr-è®¾å¤‡ï¼ˆç†è®ºä¸éœ€è¦ï¼Œä¿é™©èµ·è§ï¼‰
         existing_devices = self._get_existing_devices()
         stale_devs = [dev for dev in existing_devices
                       if dev.startswith(EXTERNAL_DEV_PREFIX)
@@ -490,24 +490,24 @@ process_external¸ºÔğÅäÖÃrouterµÄexternal gateway½Ó¿ÚÅäÖÃºÍfloating ipÅäÖÃ£¬Ö÷Òª°
                                prefix=EXTERNAL_DEV_PREFIX)
 
         # Process SNAT rules for external gateway
-        # iptablesÉèÖÃ
+        # iptablesè®¾ç½®
         gw_port = self._router.get('gw_port')
         self._handle_router_snat_rules(gw_port, interface_name)
 ```
-_process_external_gatewayÖ÷ÒªÓĞÈı¸öº¯Êı£ºexternal_gateway_added¡¢external_gateway_removedºÍexternal_gateway_updated¡£_process_external_gatewayÁ÷³ÌÓë_process_internal_portsÀàËÆ£¬¿É»¥Ïà²Î¿¼¡£²»Í¬µÄÊÇ£¬_process_external_gatewayÔÚ×îºóÍ¨¹ı_handle_router_snat_rulesÉèÖÃiptables¹æÔò£¬¶øinternal-port²»ĞèÒª¡£
+_process_external_gatewayä¸»è¦æœ‰ä¸‰ä¸ªå‡½æ•°ï¼šexternal_gateway_addedã€external_gateway_removedå’Œexternal_gateway_updatedã€‚_process_external_gatewayæµç¨‹ä¸_process_internal_portsç±»ä¼¼ï¼Œå¯äº’ç›¸å‚è€ƒã€‚ä¸åŒçš„æ˜¯ï¼Œ_process_external_gatewayåœ¨æœ€åé€šè¿‡_handle_router_snat_rulesè®¾ç½®iptablesè§„åˆ™ï¼Œè€Œinternal-portä¸éœ€è¦ã€‚
 
-external_gateway_addedº¯Êıµ÷ÓÃ_external_gateway_addedº¯Êı£¬¸Ãº¯ÊıÍê³ÉÍâ²¿Íø¹ØµÄ²åÈë¡¢cidrÅäÖÃµÈ¡£
+external_gateway_addedå‡½æ•°è°ƒç”¨_external_gateway_addedå‡½æ•°ï¼Œè¯¥å‡½æ•°å®Œæˆå¤–éƒ¨ç½‘å…³çš„æ’å…¥ã€cidré…ç½®ç­‰ã€‚
 ```
 graph TB
 external_gateway_added --> _external_gateway_added
 _external_gateway_added --> _plug_external_gateway
 _external_gateway_added --> driver.init_router_port
-_external_gateway_added --> send_ip_addr_adv_notif/Í¨ÖªipµØÖ·±ä¸ü
-_plug_external_gateway -->driver.plug/²åÈëqg¶Ë¿Ú
-driver.init_router_port --> init_l3/ÅäÖÃcidr
+_external_gateway_added --> send_ip_addr_adv_notif/é€šçŸ¥ipåœ°å€å˜æ›´
+_plug_external_gateway -->driver.plug/æ’å…¥qgç«¯å£
+driver.init_router_port --> init_l3/é…ç½®cidr
 ```
 
-external_gateway_removedº¯ÊıÊ×ÏÈÒÆ³ıqgÉè±¸ÉÏµÄip£¬Ö®ºó°ÎµôÉè±¸¡£
+external_gateway_removedå‡½æ•°é¦–å…ˆç§»é™¤qgè®¾å¤‡ä¸Šçš„ipï¼Œä¹‹åæ‹”æ‰è®¾å¤‡ã€‚
 ```python
 # neutron/agent/l3/router_info.py
     def external_gateway_removed(self, ex_gw_port, interface_name):
@@ -525,26 +525,26 @@ external_gateway_removedº¯ÊıÊ×ÏÈÒÆ³ıqgÉè±¸ÉÏµÄip£¬Ö®ºó°ÎµôÉè±¸¡£
                            prefix=EXTERNAL_DEV_PREFIX)
 ```
 
-external_gateway_updatedÖ»ÊÇ¼òµ¥µÄµ÷ÓÃ_external_gateway_addedº¯Êı¶ÔÍø¹Øip½øĞĞ¸üĞÂ¡£
+external_gateway_updatedåªæ˜¯ç®€å•çš„è°ƒç”¨_external_gateway_addedå‡½æ•°å¯¹ç½‘å…³ipè¿›è¡Œæ›´æ–°ã€‚
 
-***configure_fip_addressesÓÃÓÚÅäÖÃfloating ip, Í¨¹ıµ÷ÓÃprocess_floating_ip_addressesÀ´ÊµÏÖ¡£¸Ãº¯ÊıÍ¨¹ıadd_floating_ipºÍremove_floating_ipÁ½¸öº¯ÊıÊµÏÖfloating ipµÄ¹ÜÀí£¬ÆäÖĞadd_floating_ipº¯Êı±»²»Í¬µÄRouterÀàÖØĞ´¡£***
+***configure_fip_addressesç”¨äºé…ç½®floating ip, é€šè¿‡è°ƒç”¨process_floating_ip_addressesæ¥å®ç°ã€‚è¯¥å‡½æ•°é€šè¿‡add_floating_ipå’Œremove_floating_ipä¸¤ä¸ªå‡½æ•°å®ç°floating ipçš„ç®¡ç†ï¼Œå…¶ä¸­add_floating_ipå‡½æ•°è¢«ä¸åŒçš„Routerç±»é‡å†™ã€‚***
 
-***update_fip_statusesº¯ÊıÓÃÓÚÏòneutron server±¨¸æfloating ipµÄ×´Ì¬¡£µ±Ç°floating ipµÄ×´Ì¬²¢²»ÄÜ×¼È·Ö¸Ê¾Æä¿ÉÓÃĞÔ¡£***
+***update_fip_statuseså‡½æ•°ç”¨äºå‘neutron serveræŠ¥å‘Šfloating ipçš„çŠ¶æ€ã€‚å½“å‰floating ipçš„çŠ¶æ€å¹¶ä¸èƒ½å‡†ç¡®æŒ‡ç¤ºå…¶å¯ç”¨æ€§ã€‚***
 
 #### routes_updated
-routes_updatedº¯ÊıÓÃÓÚ¸üĞÂ¾²Ì¬Â·ÓÉÅäÖÃ¡£¸Ãº¯ÊıÍ¨¹ıÒ»ÏµÁĞµ÷ÓÃÖ®ºó£¬×îÖÕÊ¹ÓÃ ip routeÃüÁî½øĞĞ²Ù×÷¡£µ±È»£¬¸Ã²Ù×÷Ò²ÔÚrouterµÄnamespaceÏÂ¡£
+routes_updatedå‡½æ•°ç”¨äºæ›´æ–°é™æ€è·¯ç”±é…ç½®ã€‚è¯¥å‡½æ•°é€šè¿‡ä¸€ç³»åˆ—è°ƒç”¨ä¹‹åï¼Œæœ€ç»ˆä½¿ç”¨ ip routeå‘½ä»¤è¿›è¡Œæ“ä½œã€‚å½“ç„¶ï¼Œè¯¥æ“ä½œä¹Ÿåœ¨routerçš„namespaceä¸‹ã€‚
 
 ### 4.router_removed_from_agent
-#### ´¥·¢µ÷ÓÃ
+#### è§¦å‘è°ƒç”¨
 1. remove_router_from_l3_agent <-- DELETE /agents/{agent_id}/l3-routers/{router_id}
 2. reschedule_router 
-#### µ÷ÓÃÁ÷³Ì
-router_removed_from_agentº¯ÊıµÄ´¦ÀíÁ÷³ÌÓërouter_deletedÏàÍ¬£¬ÔÚqueueÖĞÌí¼ÓÒ»¸öÉ¾³ıÂ·ÓÉµÄÈÎÎñ¡£
+#### è°ƒç”¨æµç¨‹
+router_removed_from_agentå‡½æ•°çš„å¤„ç†æµç¨‹ä¸router_deletedç›¸åŒï¼Œåœ¨queueä¸­æ·»åŠ ä¸€ä¸ªåˆ é™¤è·¯ç”±çš„ä»»åŠ¡ã€‚
 
 ### 5.router_added_to_agent
-#### ´¥·¢µ÷ÓÃ
+#### è§¦å‘è°ƒç”¨
 1. add_router_to_l3_agent <-- POST /agents/{agent_id}/l3-routers
 2. reschedule_router
-#### µ÷ÓÃÁ÷³Ì
-router_added_to_agentº¯ÊıµÄ´¦ÀíÁ÷³ÌÓërouter_updatedÏàÍ¬¡£
+#### è°ƒç”¨æµç¨‹
+router_added_to_agentå‡½æ•°çš„å¤„ç†æµç¨‹ä¸router_updatedç›¸åŒã€‚
 
