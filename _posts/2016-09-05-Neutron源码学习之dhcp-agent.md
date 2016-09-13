@@ -1,11 +1,11 @@
-### Overview
+ï»¿### Overview
 
-dhcp agentÎªÊµÀıÌá¹©Èı²ãdhcp·şÎñ¡£Ã¿¸öÈı²ãÍøÂç¶ÔÓ¦ÁËÒ»¸ödhcp·şÎñ£¬ÔÚneutron dhcp agentÖĞ±íÊ¾ÎªÒ»¸öÆô¶¯ÁËdhcp·şÎñ£¨dnsmasq£©µÄnamespace¡£²¢ÇÒÔÚ¸ÃnamespaceÖĞ»¹ÅäÖÃÓĞdhcp·şÎñ½Ó¿ÚÉè±¸£¨tapÉè±¸£©¡£
-Óël3 agentÒ»Ñù£¬dhcp agentÓëneutron serverµÄ½»»¥Í¨¹ı»ùÓÚmessage queueµÄRPC½øĞĞ¡£dhcp agent´Óneutron serverÖĞÀ­È¡×Ô¼ºµÄnetworkÅäÖÃ£¬¶Ô±¾ÍøÂç½ÚµãµÄnamespace½øĞĞÉèÖÃ£»Í¬Ê±neutron serverÖ÷¶¯Í¨Öªdhcp agent¹ØÓÚÆänetworkÅäÖÃµÄ±ä»¯¡£
-**×¢Òâ£º**Ö»ÓĞ¿ªÆôÁËdhcp¹¦ÄÜµÄnetwork²Å»á´´½¨Êµ¼ÊµÄdhcp namespace£¡
+dhcp agentä¸ºå®ä¾‹æä¾›ä¸‰å±‚dhcpæœåŠ¡ã€‚æ¯ä¸ªä¸‰å±‚ç½‘ç»œå¯¹åº”äº†ä¸€ä¸ªdhcpæœåŠ¡ï¼Œåœ¨neutron dhcp agentä¸­è¡¨ç¤ºä¸ºä¸€ä¸ªå¯åŠ¨äº†dhcpæœåŠ¡ï¼ˆdnsmasqï¼‰çš„namespaceã€‚å¹¶ä¸”åœ¨è¯¥namespaceä¸­è¿˜é…ç½®æœ‰dhcpæœåŠ¡æ¥å£è®¾å¤‡ï¼ˆtapè®¾å¤‡ï¼‰ã€‚
+ä¸l3 agentä¸€æ ·ï¼Œdhcp agentä¸neutron serverçš„äº¤äº’é€šè¿‡åŸºäºmessage queueçš„RPCè¿›è¡Œã€‚dhcp agentä»neutron serverä¸­æ‹‰å–è‡ªå·±çš„networké…ç½®ï¼Œå¯¹æœ¬ç½‘ç»œèŠ‚ç‚¹çš„namespaceè¿›è¡Œè®¾ç½®ï¼›åŒæ—¶neutron serverä¸»åŠ¨é€šçŸ¥dhcp agentå…³äºå…¶networké…ç½®çš„å˜åŒ–ã€‚
+**æ³¨æ„ï¼š**åªæœ‰å¼€å¯äº†dhcpåŠŸèƒ½çš„networkæ‰ä¼šåˆ›å»ºå®é™…çš„dhcp namespaceï¼
 
-### 1.agentÆô¶¯
-dhcp agentµÄÆô¶¯Ò²ÊÇ´´½¨Ò»¸öoslo_messagingµÄservice¶ÔÏó²¢Æô¶¯Ëü¡£ÎÒÃÇÖªµÀ£¬¸ÃserviceµÄ¹Ø¼üÔÚÓÚ´«ÈëµÄmanager£¬managerÀàÊµÏÖµÄ·½·¨½«Ö±½Ó±©Â¶¸ørpc client£¨³ıÁË¡°__¡±¿ªÍ·µÄ·½·¨£¿£©¡£dhcp agentÆô¶¯Ê±´«ÈëµÄÊÇneutron.agent.dhcp.agent.DhcpAgentWithStateReportÀà£¬
+### 1.agentå¯åŠ¨
+dhcp agentçš„å¯åŠ¨ä¹Ÿæ˜¯åˆ›å»ºä¸€ä¸ªoslo_messagingçš„serviceå¯¹è±¡å¹¶å¯åŠ¨å®ƒã€‚æˆ‘ä»¬çŸ¥é“ï¼Œè¯¥serviceçš„å…³é”®åœ¨äºä¼ å…¥çš„managerï¼Œmanagerç±»å®ç°çš„æ–¹æ³•å°†ç›´æ¥æš´éœ²ç»™rpc clientï¼ˆé™¤äº†â€œ__â€å¼€å¤´çš„æ–¹æ³•ï¼Ÿï¼‰ã€‚dhcp agentå¯åŠ¨æ—¶ä¼ å…¥çš„æ˜¯neutron.agent.dhcp.agent.DhcpAgentWithStateReportç±»ï¼Œ
 ```python
 # neutron/agent/dhcp_agent.py
     def main():
@@ -19,8 +19,8 @@ dhcp agentµÄÆô¶¯Ò²ÊÇ´´½¨Ò»¸öoslo_messagingµÄservice¶ÔÏó²¢Æô¶¯Ëü¡£ÎÒÃÇÖªµÀ£¬¸Ãser
             manager='neutron.agent.dhcp.agent.DhcpAgentWithStateReport')
         service.launch(cfg.CONF, server).wait()
 ```
-DhcpAgentWithStateReportÀà¼Ì³ĞÁËDhcpAgentÀàµÄ·½·¨µÄÍ¬Ê±£¬»á¶¨Ê±Ïòneutron serverÉÏ±¨Æä×´Ì¬£¬¸Ã×´Ì¬µ±Ç°Ö»ÓÃÓÚÅĞ¶ÏagentµÄ´æ»î×´¿ö¡£
-Óël3 agentÒ»Ñù£¬dhcp agentÆô¶¯Ö®³õ»á¶Ô±¾»úÒÑ¾­²Ğ´æµÄdhcp½øĞĞ³õÊ¼»¯¹ÜÀí¡£²»Í¬µÄÊÇ£¬l3 agentÓÃvrouterµÄnamespaceÀ´²¶×½²Ğ´ævrouter£¬¶ødhcp agentÊ¹ÓÃstate pathÖĞµÄnetwork×´Ì¬Ä¿Â¼À´¼ÇÂ¼£¨ÒòÎªnetwork²¢·Ç±ØĞènamespace£©¡£l3 agent¼ÇÂ¼µ±Ç°vrouterµÄ×´Ì¬ĞÅÏ¢ÊÇÓÉRouterInfo¶ÔÏó×ÖµäÀ´´æ´¢£»dhcp agentÍ¨¹ıNetworkCache¶ÔÏóÀ´´æ´¢¡£ÔÚDhcpAgentWithStateReportµÄ¸¸ÀàDhcpAgentµÄ__init__·½·¨ÖĞÍê³ÉnetworkchacheµÄ³õÊ¼»¯¡£
+DhcpAgentWithStateReportç±»ç»§æ‰¿äº†DhcpAgentç±»çš„æ–¹æ³•çš„åŒæ—¶ï¼Œä¼šå®šæ—¶å‘neutron serverä¸ŠæŠ¥å…¶çŠ¶æ€ï¼Œè¯¥çŠ¶æ€å½“å‰åªç”¨äºåˆ¤æ–­agentçš„å­˜æ´»çŠ¶å†µã€‚
+ä¸l3 agentä¸€æ ·ï¼Œdhcp agentå¯åŠ¨ä¹‹åˆä¼šå¯¹æœ¬æœºå·²ç»æ®‹å­˜çš„dhcpè¿›è¡Œåˆå§‹åŒ–ç®¡ç†ã€‚ä¸åŒçš„æ˜¯ï¼Œl3 agentç”¨vrouterçš„namespaceæ¥æ•æ‰æ®‹å­˜vrouterï¼Œè€Œdhcp agentä½¿ç”¨state pathä¸­çš„networkçŠ¶æ€ç›®å½•æ¥è®°å½•ï¼ˆå› ä¸ºnetworkå¹¶éå¿…éœ€namespaceï¼‰ã€‚l3 agentè®°å½•å½“å‰vrouterçš„çŠ¶æ€ä¿¡æ¯æ˜¯ç”±RouterInfoå¯¹è±¡å­—å…¸æ¥å­˜å‚¨ï¼›dhcp agenté€šè¿‡NetworkCacheå¯¹è±¡æ¥å­˜å‚¨ã€‚åœ¨DhcpAgentWithStateReportçš„çˆ¶ç±»DhcpAgentçš„__init__æ–¹æ³•ä¸­å®Œæˆnetworkchacheçš„åˆå§‹åŒ–ã€‚
 ```python
 #neutron/agent/dhcp/agent.py: DhcpAgent
     def __init__(self, host=None, conf=None):
@@ -39,7 +39,7 @@ DhcpAgentWithStateReportÀà¼Ì³ĞÁËDhcpAgentÀàµÄ·½·¨µÄÍ¬Ê±£¬»á¶¨Ê±Ïòneutron serverÉ
             self.cache.put(net)
 ```
 
-Dhcp AgentÆô¶¯Ê±»áÏòneutron server·¢ÆğrpcÇëÇóÒÔ»ñÈ¡µ±Ç°¸ÃÍøÂç½ÚµãÉÏµÄnetworkĞÅÏ¢£¬½øĞĞÈ«Á¿¸üĞÂ¡£Õâ¸ö¶¯×÷»á±»Ö´ĞĞÁ½´Î£ºµÚÒ»´ÎÊÇcreateµÄÊ±ºò£¬service´´½¨manager¶ÔÏó£¬ÔÚDhcpAgentWithStateReportµÄ__init__·½·¨ÖĞ½øĞĞ¡£
+Dhcp Agentå¯åŠ¨æ—¶ä¼šå‘neutron serverå‘èµ·rpcè¯·æ±‚ä»¥è·å–å½“å‰è¯¥ç½‘ç»œèŠ‚ç‚¹ä¸Šçš„networkä¿¡æ¯ï¼Œè¿›è¡Œå…¨é‡æ›´æ–°ã€‚è¿™ä¸ªåŠ¨ä½œä¼šè¢«æ‰§è¡Œä¸¤æ¬¡ï¼šç¬¬ä¸€æ¬¡æ˜¯createçš„æ—¶å€™ï¼Œserviceåˆ›å»ºmanagerå¯¹è±¡ï¼Œåœ¨DhcpAgentWithStateReportçš„__init__æ–¹æ³•ä¸­è¿›è¡Œã€‚
 ```python
 # neutron/agent/dhcp_agent.py
     def __init__(self, host=None, conf=None):
@@ -58,7 +58,7 @@ Dhcp AgentÆô¶¯Ê±»áÏòneutron server·¢ÆğrpcÇëÇóÒÔ»ñÈ¡µ±Ç°¸ÃÍøÂç½ÚµãÉÏµÄnetworkĞÅÏ¢
         self.sync_state()
         self.periodic_resync()
 ```
-sync_state½ÓÊÜnetworks×÷Îª²ÎÊı£¬µ«µ±¸Ã²ÎÊıÎªNoneÊ±£¬dhcp agent»áÀ­È¡ËùÓĞ±¾½ÚµãµÄnetwork½øĞĞ¸üĞÂ¡£ÁíÒ»´ÎnetworkµÄÈ«Á¿¸üĞÂ·¢ÉúÔÚagentµÄrpc·şÎñÆô¶¯Ê±£¬¼´µ÷ÓÃservice.launch(cfg.CONF, server)ÖĞ£¬¸Ãµ÷ÓÃ×îÖÕ»áµ÷ÓÃneutron_service.ServiceµÄstart·½·¨¡£
+sync_stateæ¥å—networksä½œä¸ºå‚æ•°ï¼Œä½†å½“è¯¥å‚æ•°ä¸ºNoneæ—¶ï¼Œdhcp agentä¼šæ‹‰å–æ‰€æœ‰æœ¬èŠ‚ç‚¹çš„networkè¿›è¡Œæ›´æ–°ã€‚å¦ä¸€æ¬¡networkçš„å…¨é‡æ›´æ–°å‘ç”Ÿåœ¨agentçš„rpcæœåŠ¡å¯åŠ¨æ—¶ï¼Œå³è°ƒç”¨service.launch(cfg.CONF, server)ä¸­ï¼Œè¯¥è°ƒç”¨æœ€ç»ˆä¼šè°ƒç”¨neutron_service.Serviceçš„startæ–¹æ³•ã€‚
 ```python
 # neutron/service.py
     def start(self):
@@ -69,22 +69,22 @@ sync_state½ÓÊÜnetworks×÷Îª²ÎÊı£¬µ«µ±¸Ã²ÎÊıÎªNoneÊ±£¬dhcp agent»áÀ­È¡ËùÓĞ±¾½ÚµãµÄ
     def init_host(self):
         self.sync_state()
 ```
-ÔÚdhcp agentÔËĞĞÆÚ¼äÒ²»áµ÷ÓÃsync_stateº¯Êı£¬µ«»ù±¾ÉÏ¶¼ÊÇnetworks²ÎÊı²»Îª¿Õ£¬¼´Ö»¸üĞÂÒ»²¿·Önetwork¡£ÕâÖÖÇé¿ö·¢ÉúÔÚÄ³Ğ©²Ù×÷Å×³öExceptionÊ±¡£
+åœ¨dhcp agentè¿è¡ŒæœŸé—´ä¹Ÿä¼šè°ƒç”¨sync_stateå‡½æ•°ï¼Œä½†åŸºæœ¬ä¸Šéƒ½æ˜¯networkså‚æ•°ä¸ä¸ºç©ºï¼Œå³åªæ›´æ–°ä¸€éƒ¨åˆ†networkã€‚è¿™ç§æƒ…å†µå‘ç”Ÿåœ¨æŸäº›æ“ä½œæŠ›å‡ºExceptionæ—¶ã€‚
 
-Neutron Server¶Ôdhcp agentµÄRPC²Ù×÷»ù±¾¶¼ÊÇnotify£¬¶¨ÒåÔÚneutron/api/rpc/agentnotifiers/dhcp_rpc_agent_api.pyÖĞ¡£³ıÁËnetwork_removed_from_agent¡¢network_added_to_agentºÍagent_updatedÈı¸ö½Ó¿ÚÍâ£¬DhcpAgentNotifyAPIÀà»¹¶¨ÒåÁËÒ»¸önotify methodÁĞ±íÒÔ¼°Ò»¸öÍ¨ÓÃµÄnotify·½·¨£¬notify·½·¨¸ºÔğ½«methodÁĞ±íÖĞµÄ'.'Ìæ»»Îª'_'ºó½øĞĞnotify¡£
-RPC|ÃèÊö
+Neutron Serverå¯¹dhcp agentçš„RPCæ“ä½œåŸºæœ¬éƒ½æ˜¯notifyï¼Œå®šä¹‰åœ¨neutron/api/rpc/agentnotifiers/dhcp_rpc_agent_api.pyä¸­ã€‚é™¤äº†network_removed_from_agentã€network_added_to_agentå’Œagent_updatedä¸‰ä¸ªæ¥å£å¤–ï¼ŒDhcpAgentNotifyAPIç±»è¿˜å®šä¹‰äº†ä¸€ä¸ªnotify methodåˆ—è¡¨ä»¥åŠä¸€ä¸ªé€šç”¨çš„notifyæ–¹æ³•ï¼Œnotifyæ–¹æ³•è´Ÿè´£å°†methodåˆ—è¡¨ä¸­çš„'.'æ›¿æ¢ä¸º'_'åè¿›è¡Œnotifyã€‚
+RPC|æè¿°
 ---|---
 agent_updated|
-network.create.end|´´½¨network
-network.update.end|¸üĞÂnetwork
-network.delete.end|É¾³ınetwork
+network.create.end|åˆ›å»ºnetwork
+network.update.end|æ›´æ–°network
+network.delete.end|åˆ é™¤network
 subnet.create.end|
 subnet.update.end|
 subnet.delete.end|
 port.create.end|
 port.update.end|
 port.delete.end|
-network_removed_from_agent|µ÷ÓÃnetwork.delete.endÍê³É
-network_added_to_agent|µ÷ÓÃnetwork.create.endÍê³É
+network_removed_from_agent|è°ƒç”¨network.delete.endå®Œæˆ
+network_added_to_agent|è°ƒç”¨network.create.endå®Œæˆ
 
-¶øÏàÓ¦µÄRPC·½·¨ÔÚÀàDhcpAgentÖĞ¶¼ÓĞÊµÏÖ¡£
+è€Œç›¸åº”çš„RPCæ–¹æ³•åœ¨ç±»DhcpAgentä¸­éƒ½æœ‰å®ç°ã€‚
