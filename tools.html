@@ -1,0 +1,23 @@
+---
+layout: page
+title: Tools
+description: "All Tools"
+header-img: img/home-bg.jpg
+---
+
+{% for page in site.pages %}{% if page.tags contains "tools" %}
+<div class="post-preview">
+    <a href="{{ page.url }}">
+        <h2 class="post-title">
+            {{ page.title }}
+        </h2>
+        {% if page.description %}
+        <h3 class="post-subtitle">
+            {{ page.description }}
+        </h3>
+        {% endif %}
+    </a>
+</div>
+<hr>
+{% endif %}{% endfor %}
+
