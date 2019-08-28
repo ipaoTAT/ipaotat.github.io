@@ -27,7 +27,7 @@ tags: hidden, tools
 }
 </style>
 <script language="javascript">
-var cidr_regexp=/^((2(5[0-5]|[0-4]\d))|1?[1-9]?\d)(\.((2(5[0-5]|[0-4]\d))|1?[1-9]?\d)){3}\/(3[0-2]|[1-2]?[0-9])$/
+var cidr_regexp=/^((2(5[0-5]|[0-4]\d))|1\d{2}|[1-9]?\d)(\.((2(5[0-5]|[0-4]\d))|1\d{2}|[1-9]?\d)){3}\/(3[0-2]|[1-2]?[0-9])$/
 function perror(msg){
     div=document.getElementById("output")
     div.setAttribute("class", "ErrorMsg")
@@ -130,16 +130,34 @@ function ip2int(ip_str) {
 function int2ip(i) {
     return ((i&0xff000000)>>>24)+"."+((i&0x00ff0000)>>>16)+"."+((i&0x0000ff00)>>>8)+"."+(i&0x000000ff)
 }
+
+function switchUint32ToIp() {
+    i=parseInt(document.getElementById("input_box2").value)
+    if(isNaN(i) || i < 0 || i > 0xffffffff) {
+        document.getElementById("switch_res").innerText="Error: Bad uint32 " + i
+        return
+    }
+    document.getElementById("switch_res").innerText=int2ip(i)
+}
+
+function switchIpToUint32() {
+    ip=document.getElementById("input_box2").value
+    try {
+        document.getElementById("switch_res").innerText=(ip2int(ip)>>>0)+""
+    }catch(error) {
+        document.getElementById("switch_res").innerText="Error: " + error
+    }
+}
 </script>
 
-<h1>This is a simple CIDR Calculate</h1>
-<h2>INPUT</h2>
+<h2>CIDR Calculator</h2>
+<h3>INPUT</h3>
 <form action="javascript:calculate()" method="get">
 <div><span class="labal">CIDR</span>: <input id="cidr_box" type="text" placeholder="Input cidr..." required=true pattern=".*" style="height:25px"/>
 <input type="submit" value="Calculate" class="button"/>
 </div>
 </form>
-<h2>OUTPUT</h2>
+<h3>OUTPUT</h3>
 <div id="output" class="InfoMsg">Result</div>
 <br>
 <div><span class="labal">CIDR</span>: <span id="normal_cidr" class="result"></span></div>
@@ -148,4 +166,11 @@ function int2ip(i) {
 <div><span class="labal">Last IP</span>: <span id="last_ip" class="result"></span></div>
 <div><span class="labal">NetMask</span>: <span id="mask_str" class="result"></span></div>
 <div><span class="labal">BroadCast</span>: <span id="bc_ip" class="result"></span></div>
+<hr></hr>
+<h2>IP to Uint32</h2>
+<input id="input_box2" type="text" placeholder="Input..." style="height:25px"/>
+<input type="button" value="To IP" class="button" onclick="switchUint32ToIp()"/>
+<input type="button" value="To Int" class="button" onclick="switchIpToUint32()"/>
+<br><br>
+<div><span class="labal">Result</span>: <span id="switch_res" class="result"></span></div>
 
