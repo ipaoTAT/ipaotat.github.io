@@ -1,0 +1,147 @@
+---
+layout: page
+title: CIDR计算器
+description: "This is a simple CIDR calculator"
+header-img: img/home-bg.jpg
+tags: hidden, tools
+---
+<style>
+.ErrorMsg {
+    color: red;
+    font: bold;
+}
+.InfoMsg {
+    color: black;
+}
+.labal {
+    width: 90px;
+    display:inline-block;
+    font: bold;
+}
+.result {
+    color: red;
+}
+.button {
+    width: 80px;
+    height: 25px;
+}
+</style>
+<script language="javascript">
+var cidr_regexp=/^((2(5[0-5]|[0-4]\d))|1?[1-9]?\d)(\.((2(5[0-5]|[0-4]\d))|1?[1-9]?\d)){3}\/(3[0-2]|[1-2]?[0-9])$/
+function perror(msg){
+    div=document.getElementById("output")
+    div.setAttribute("class", "ErrorMsg")
+    div.innerText=("Error:" + msg)
+}
+function pinfo(msg){
+    div=document.getElementById("output")
+    div.setAttribute("class", "InfoMsg")
+    div.innerText=("Info:" + msg)
+}
+function poutput(msg){
+    div=document.getElementById("output")
+    div.setAttribute("class", "InfoMsg")
+    div.innerText=msg
+}
+function pclear() {
+    poutput("Result")
+    pres("ip_number", "")
+    pres("first_ip", "")
+    pres("last_ip", "")
+    pres("mask_str", "")
+    pres("bc_ip", "")
+}
+function pres(field, value) {
+    document.getElementById(field).innerText=value
+}
+function cidr_valid(str) {
+    return cidr_regexp.test(str)
+}
+function calculate(){
+    pclear()
+    cidr = document.getElementById("cidr_box").value
+    if(cidr == null || cidr == "") {
+        perror("Bad cidr format of '" + cidr + "'")
+        return
+    }
+    // Check cidr
+    if (!cidr_valid(cidr)) {
+        perror("Invalid cidr '"+cidr+"'")
+        return
+    }
+    pinfo("Calculating for cidr '" + cidr + "'...")
+    try {
+        // split cidr
+        _strs=cidr.split("/")
+        ip_int=ip2int(_strs[0])
+        mask_int=parseInt(_strs[1])
+        ip_int=ip_int&(0xffffffff-(1<<(32-mask_int))+1)
+        
+        // print result
+        mask_str=int2ip(0xffffffff&(0xffffffff-(1<<(32-mask_int))+1))
+        ip_num=0
+        first_ip=""
+        last_ip=""
+        bc_ip=""
+        switch(mask_int) {
+        case 32:
+            ip_num=1
+            first_ip=int2ip(ip_int)
+            break
+        case 31:
+            ip_num=2
+            first_ip=int2ip(ip_int)
+            last_ip=int2ip(ip_int|((1<<(32-mask_int))-1))
+            break
+        default:
+            ip_num=(1<<(32-mask_int))-2
+            first_ip=int2ip(ip_int+1)
+            last_ip=int2ip(ip_int|((1<<(32-mask_int))-1)-1)
+            bc_ip=int2ip(ip_int|((1<<(32-mask_int))-1))
+        }
+        poutput("Result")
+        pres("ip_number", ip_num)
+        pres("first_ip", first_ip)
+        pres("last_ip", last_ip)
+        pres("mask_str", mask_str)
+        pres("bc_ip", bc_ip)
+    }catch(error) {
+        perror(error)
+    }
+}
+function ip2int(ip_str) {
+    bts=ip_str.split(".")
+    if (bts.length != 4) {
+        throw "Bad ip format"
+    }
+    var res = 0>>>0 
+    for(i=0; i < 4; i++) {
+        _n=parseInt(bts[3-i])
+        if(isNaN(_n) || _n > 255 || _n < 0) {
+            throw "Bad ip format"
+        }
+        res += (_n << i*8)
+    }
+    return res
+}
+function int2ip(i) {
+    return ((i&0xff000000)>>>24)+"."+((i&0x00ff0000)>>>16)+"."+((i&0x0000ff00)>>>8)+"."+(i&0x000000ff)
+}
+</script>
+
+<h1>This is a simple CIDR Calculate</h1>
+<h2>INPUT</h2>
+<form action="javascript:calculate()" method="get">
+<div><span class="labal">CIDR</span>: <input id="cidr_box" type="text" placeholder="Input cidr..." required=true pattern=".*" style="height:25px"/>
+<input type="submit" value="Calculate" class="button"/>
+</div>
+</form>
+<h2>OUTPUT</h2>
+<div id="output" class="InfoMsg">Result</div>
+<br>
+<div><span class="labal">IP Number</span>: <span id="ip_number" class="result"></span></div>
+<div><span class="labal">First IP</span>: <span id="first_ip" class="result"></span></div>
+<div><span class="labal">Last IP</span>: <span id="last_ip" class="result"></span></div>
+<div><span class="labal">NetMask</span>: <span id="mask_str" class="result"></span></div>
+<div><span class="labal">BroadCast</span>: <span id="bc_ip" class="result"></span></div>
+
