@@ -45,6 +45,7 @@ function poutput(msg){
 }
 function pclear() {
     poutput("Result")
+    pres("normal_cidr", "")
     pres("ip_number", "")
     pres("first_ip", "")
     pres("last_ip", "")
@@ -78,6 +79,7 @@ function calculate(){
         ip_int=ip_int&(0xffffffff-(1<<(32-mask_int))+1)
         
         // print result
+        normal_cidr=int2ip(ip_int) + "/" + mask_int
         mask_str=int2ip(0xffffffff&(0xffffffff-(1<<(32-mask_int))+1))
         ip_num=0
         first_ip=""
@@ -100,6 +102,7 @@ function calculate(){
             bc_ip=int2ip(ip_int|((1<<(32-mask_int))-1))
         }
         poutput("Result")
+        pres("normal_cidr", normal_cidr)
         pres("ip_number", ip_num)
         pres("first_ip", first_ip)
         pres("last_ip", last_ip)
@@ -139,6 +142,7 @@ function int2ip(i) {
 <h2>OUTPUT</h2>
 <div id="output" class="InfoMsg">Result</div>
 <br>
+<div><span class="labal">CIDR</span>: <span id="normal_cidr" class="result"></span></div>
 <div><span class="labal">IP Number</span>: <span id="ip_number" class="result"></span></div>
 <div><span class="labal">First IP</span>: <span id="first_ip" class="result"></span></div>
 <div><span class="labal">Last IP</span>: <span id="last_ip" class="result"></span></div>
