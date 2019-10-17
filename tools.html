@@ -2,23 +2,23 @@
 layout: page
 title: Tools
 description: "All Tools"
-header-img: img/post-bg-js-module.jpg
+header-img: img/page-bg-js-module.jpg
 ---
 
 {% for page in site.pages %}{% if page.tags contains "tools" %}
-<div class="post-preview">
+<div class="page-preview">
     <a href="{{ page.url }}">
-        <h2 class="post-title">
+        <h2 class="page-title">
             {{ page.title }}
         </h2>
         {% if page.description %}
-        <h3 class="post-subtitle">
+        <h3 class="page-subtitle">
             {{ page.description }}
         </h3>
         {% endif %}
     </a>
-    <p class="post-meta">
-        Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}
+    <p class="page-meta">
+        pageed by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.date | date: "%B %-d, %Y" }}
     </p>
 </div>
 <hr>
