@@ -1,0 +1,298 @@
+---
+layout: page
+title: 2048 Game
+description: "simple 2048 game, just for fun"
+header-img: img/bg-simple.jpg
+tags: hidden, tools
+---
+<div id="body_div" align=center>
+    <div id="screen" style="width: 400px">
+        <div id="tital">
+            <div id="info">
+                <span class="info_key">Max:</span><span class="info_value" id="info_value_max"></span>
+                <span class="info_key">Step:</span><span class="info_value" id="info_value_step"></span>
+            </div>
+            <div id="control">
+                <span style="display:none">
+                <span class="info_key">Goal:</span>
+                <span class="control_ele">
+                    <input name="success_goal" id="success_goal_input" value="2048" size=4/>
+                </span>
+                </span>
+                <span class="info_key">Size:</span>
+                <span class="control_ele">
+                    <select name="maze_size" id="maze_size_selection"></select>
+                </span>
+                <span class="control_ele">
+                    <button  onClick="start()">restart</button>
+                </span>
+            </div>
+        </div>
+        <div class="main" id="main">
+                <div id="go" class="main">
+                    <br>Game Over!<br>
+                    <input type="button" value="Try Again" class="button" onclick="start()"/>
+                </div>
+                <div id="won" class="main">
+                    <br>You Win!<br>
+                    <input type="button" value="Try Again" class="button" onclick="start()"/>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- #########################  JavaScript #####################################-->
+<script type="text/javascript">
+// configs
+var start_solid_num=3;
+var maze_sizes=[4,5,6];
+
+var screen_width;
+var cur_max;
+var goal;
+var step;
+var cur_maze_size;
+var maze=new Array(0);
+
+function init(){
+    // add maze size options
+    selection_ele = document.getElementById("maze_size_selection")
+    for (i in maze_sizes) {
+        _e = document.createElement("option")
+        _e.value=maze_sizes[i]
+        _e.innerText=maze_sizes[i]
+        selection_ele.appendChild(_e)
+    }
+    // set size
+    screen_width=parseInt(document.getElementById("screen").style.width)
+    document.getElementById("main").style.width=screen_width
+    document.getElementById("main").style.height=screen_width
+    start();
+}
+
+function start(){
+    // variables
+    var selected_index=document.getElementById("maze_size_selection").selectedIndex
+    cur_maze_size=maze_sizes[selected_index]
+    goal=document.getElementById("success_goal_input").value
+    var div_main = document.getElementById("main");
+    // clear solid divs
+    var solid_divs=document.getElementsByClassName("solid")
+    var length=solid_divs.length
+    for (var i = 0; i < length; i++)div_main.removeChild(solid_divs[0]); // what?
+    // add solid divs
+    solid_width=Math.floor(screen_width/cur_maze_size)-2
+    var div_solid;
+    for(var i = 0; i < cur_maze_size; i++){
+        for(var j = 0; j < cur_maze_size; j++){
+            div_solid = document.createElement("div");
+            div_solid.setAttribute("class", "solid");
+            div_solid.setAttribute("id", i*cur_maze_size+j);
+            div_solid.style.width=solid_width
+            div_solid.style.height=solid_width
+            div_solid.style.fontSize=solid_width*0.7
+            div_main.appendChild(div_solid);
+        }
+        div_solid = document.createElement("div");
+        div_solid.setAttribute("class", "newline");
+        div_main.appendChild(div_solid);
+    }
+    //
+    document.getElementById("go").style.display = "none";
+    document.getElementById("won").style.display = "none";
+    maze=new Array(cur_maze_size*cur_maze_size)
+    for(var i = 0; i < cur_maze_size*cur_maze_size; i++)maze[i] = 0;
+    for(var i = 0; i < start_solid_num; i++)rand();
+    cur_max = 2;
+    step = 0;
+    show();
+}
+
+function show(){
+    for(var i = 0; i < cur_maze_size*cur_maze_size; i++){
+        var div_solid=document.getElementById(i);
+        if(maze[i] != 0){
+            div_solid.style.backgroundColor="rgba(0,0,0,0.5)";  
+            div_solid.innerText=maze[i];
+        }else{
+            div_solid.style.backgroundColor="rgba(0,0,0,0.2)";
+            div_solid.innerText="";
+        }
+    }
+    document.getElementById("info_value_max").innerText=cur_max
+    document.getElementById("info_value_step").innerText=step
+}
+
+function rand(){
+    // empty solid count 
+    var zero_positions=new Array()
+    for(var i = 0; i <cur_maze_size*cur_maze_size; i++)if(maze[i] == 0)zero_positions.push(i);
+    if(zero_positions.length == 0)return 1;
+    // random position
+    var randseed = Math.random();
+    var randNum = Math.floor(zero_positions.length * randseed);
+    if (randNum == zero_positions.length)randNum = zero_positions.length - 1;
+    var randPos = zero_positions[randNum]
+    // random value
+    var value;
+    if(cur_max < 64)value = 2;
+    else{
+        randseed = Math.random();
+        randnum = Math.floor(10 * randseed);
+        if(randnum < 7)value = 2;
+        else value = 4;
+    }
+    maze[randPos] = value;
+    return 0;
+}
+
+const KEY_LEFT=37
+const KEY_UP=38
+const KEY_RIGHT=39
+const KEY_DOWN=40
+function merge(key){
+    var flag = 0;
+    var start, step, next_step;
+    switch(key){
+        case KEY_UP: start = 0; step = cur_maze_size; next_step = 1; break;
+        case KEY_DOWN: start = cur_maze_size*(cur_maze_size-1); step = cur_maze_size*-1; next_step = 1; break;
+        case KEY_LEFT: start = 0; step = 1; next_step = cur_maze_size; break;
+        case KEY_RIGHT: start = cur_maze_size-1; step = -1; next_step = cur_maze_size; break;
+        default: alert("Fault!");
+    }
+
+    var cur, pre, dst, next;
+    cur = start;
+    for(var i = 0; i < cur_maze_size; i++){
+        next = cur + next_step;
+        pre = dst = cur;
+        for(var j = 0; j < cur_maze_size; j++){
+            if(maze[cur] == 0)cur += step;
+            else{
+                maze[pre] = maze[cur];
+                if(pre != cur){
+                    maze[cur] = 0;
+                    flag = 1;
+                }
+                pre += step;
+                cur += step;
+            }
+        }
+        pre = cur = dst;
+        for(var j = 0; j < cur_maze_size; j++){
+            if(maze[cur] == 0)break;
+            if(cur == pre){
+                cur += step;
+                continue;
+            }
+            if(maze[cur] == maze[pre]){
+                maze[pre] *= 2;
+                maze[cur] = 0;
+                if(cur_max < maze[pre])cur_max = maze[pre];
+                flag = 1;
+                cur += step;
+                pre = cur;
+            }
+            else{
+                pre = cur;
+                cur += step;
+            }
+        }
+        pre = cur = dst;
+        for(var j = 0; j < cur_maze_size; j++){
+            if(maze[cur] == 0)cur += step;
+            else{
+                maze[pre] = maze[cur];
+                if(pre != cur)maze[cur] = 0;
+                pre += step;
+                cur += step;
+            }
+        }
+        cur = next;
+    }
+    return flag;
+}
+
+function go(e){
+    var flag1 = 0, flag2 = 1;
+    flag1 = merge(e.keyCode);
+    step++;
+    show();
+    if(cur_max >= goal){
+        iswon();
+        return;
+    }
+    if(flag1 == 1){
+        flag2 = rand();
+        setTimeout(show, 200);
+    }
+    if(flag2 == 1)isgameover();
+}
+
+function isgameover(){
+    for(var i = 0; i < cur_maze_size; i++){
+        for(var j = 0; j < cur_maze_size-1; j++){
+            if(maze[i*cur_maze_size + j] == maze[i*cur_maze_size + j+1])return;
+            if(maze[j*cur_maze_size + i] == maze[(j+1)*cur_maze_size + i])return;
+        }
+    }
+    document.getElementById("go").style.display = "";
+}
+
+function iswon(){
+    document.getElementById("won").style.display = "";
+}
+init()
+document.onkeydown=go
+</script>
+<!--  ################################## CSS ###########################  -->
+<style type="text/css">
+#tital {
+    width: 100%;
+    float: left;
+}
+#info, #control {
+    text-align: left;
+    display: inline;
+}
+#info{float: left;}
+#control{float: right;}
+.main {
+    width:100%;
+    height: 100%;
+}
+.solid{
+    float:left;
+    border: 1px;
+    border-style: solid;
+    border-color: white;
+    text-align: center;
+    font-style: bold;
+    color: white;
+    -webkit-transition:all 0.1s ease-in-out 0s;
+}
+#go, #won{
+    position:absolute;
+    background-color: rgba(0,0,0,0.5);
+    font-size: 60px;
+    color: red;
+    text-align: center;
+}
+.button{
+    color: white;
+    height:50px;
+    width:150px;
+    font-size: 20px;
+    border: 0px;
+    border-radius: 5px;
+    background-color: black;
+}
+.info_key, .info_value {
+    margin-right: 10px;
+    font-size: 20px;
+}
+.info_value {
+    color: red;
+}
+</style>
